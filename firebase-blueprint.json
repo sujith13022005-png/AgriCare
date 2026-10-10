@@ -1,0 +1,303 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Agricultural farm supply product including seeds, fertilizers, pesticides, and tools.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the product.",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "description": "Product display name.",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Product category.",
+          "enum": [
+            "Seeds",
+            "Fertilizers",
+            "Pesticides",
+            "Farm Tools",
+            "Organic Nutrients"
+          ]
+        },
+        "price": {
+          "type": "number",
+          "description": "Selling price in INR."
+        },
+        "originalPrice": {
+          "type": "number",
+          "description": "Original retail price in INR."
+        },
+        "rating": {
+          "type": "number",
+          "description": "Average farmer review rating."
+        },
+        "ratingCount": {
+          "type": "number",
+          "description": "Total review count."
+        },
+        "shortDescription": {
+          "type": "string",
+          "description": "Short summary of product.",
+          "maxLength": 250
+        },
+        "description": {
+          "type": "string",
+          "description": "Full product description and agronomic benefits.",
+          "maxLength": 1000
+        },
+        "stock": {
+          "type": "number",
+          "description": "Available stock quantity."
+        },
+        "lowStockThreshold": {
+          "type": "number",
+          "description": "Threshold at which low stock alert triggers."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Packaging unit (e.g. 5 kg bag, 1 L bottle).",
+          "maxLength": 50
+        },
+        "image": {
+          "type": "string",
+          "description": "Image URL of the product.",
+          "maxLength": 500
+        },
+        "cropCompatibility": {
+          "type": "array",
+          "description": "List of suitable crops."
+        },
+        "usageInstructions": {
+          "type": "string",
+          "description": "Application and dosage instructions.",
+          "maxLength": 1000
+        },
+        "composition": {
+          "type": "string",
+          "description": "Active chemical or organic ingredients.",
+          "maxLength": 250
+        },
+        "safetyNotes": {
+          "type": "string",
+          "description": "Safety instructions.",
+          "maxLength": 500
+        },
+        "organicCertified": {
+          "type": "boolean",
+          "description": "Indicates organic certification."
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Featured product indicator."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "price",
+        "stock",
+        "unit"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Purchase order for farm supplies delivered to farmer address.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Order tracking ID.",
+          "maxLength": 64
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Full name of the farmer.",
+          "maxLength": 100
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact mobile number.",
+          "maxLength": 20
+        },
+        "address": {
+          "type": "string",
+          "description": "Street or farm location.",
+          "maxLength": 250
+        },
+        "villageCity": {
+          "type": "string",
+          "description": "Village, town or city name.",
+          "maxLength": 100
+        },
+        "pincode": {
+          "type": "string",
+          "description": "Postal PIN code.",
+          "maxLength": 10
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Method of payment.",
+          "enum": [
+            "Cash on Delivery",
+            "UPI",
+            "Net Banking"
+          ]
+        },
+        "upiId": {
+          "type": "string",
+          "description": "UPI identifier if paid via UPI.",
+          "maxLength": 100
+        },
+        "items": {
+          "type": "array",
+          "description": "List of ordered items."
+        },
+        "subtotal": {
+          "type": "number",
+          "description": "Order subtotal amount."
+        },
+        "deliveryFee": {
+          "type": "number",
+          "description": "Delivery fee amount."
+        },
+        "discount": {
+          "type": "number",
+          "description": "Discount applied."
+        },
+        "total": {
+          "type": "number",
+          "description": "Final total payable."
+        },
+        "status": {
+          "type": "string",
+          "description": "Delivery status of order.",
+          "enum": [
+            "Received",
+            "Preparing",
+            "Dispatched",
+            "Delivered"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Delivery instructions.",
+          "maxLength": 300
+        }
+      },
+      "required": [
+        "id",
+        "customerName",
+        "phone",
+        "address",
+        "villageCity",
+        "paymentMethod",
+        "items",
+        "total",
+        "status"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Admin identity document for access control.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User UID.",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address.",
+          "maxLength": 150
+        }
+      },
+      "required": [
+        "uid"
+      ]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Persistent farmer user profile, contact details, and saved preferences.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth user ID.",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User full name.",
+          "maxLength": 150
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address.",
+          "maxLength": 150
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile avatar image URL.",
+          "maxLength": 500
+        },
+        "phone": {
+          "type": "string",
+          "description": "Primary phone number.",
+          "maxLength": 20
+        },
+        "villageCity": {
+          "type": "string",
+          "description": "Farming village or city.",
+          "maxLength": 100
+        },
+        "savedProductIds": {
+          "type": "array",
+          "description": "Array of saved favorite product IDs."
+        },
+        "lastLogin": {
+          "type": "string",
+          "description": "Last sign-in timestamp."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Account creation timestamp."
+        }
+      },
+      "required": [
+        "uid",
+        "email"
+      ]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Public catalog of agricultural products with real-time stock levels."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Orders submitted by farmers for fulfillment."
+    },
+    "/admins/{userId}": {
+      "schema": "AdminUser",
+      "description": "Admin authorized users list."
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Persistent user profile and farmer data stored in Firestore."
+    }
+  }
+}

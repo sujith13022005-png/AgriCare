@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@media print {
+  /* Set clean white page background */
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  /* Hide regular UI elements */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Show only the printable receipt */
+  #printable-order-receipt,
+  #printable-order-receipt * {
+    visibility: visible !important;
+  }
+
+  #printable-order-receipt {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12px 20px !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    display: block !important;
+    box-shadow: none !important;
+    border: none !important;
+    z-index: 999999 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide screen-only controls */
+  .no-print,
+  .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .print-modal-backdrop {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    position: static !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+}
+

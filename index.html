@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriCare Farm Supplies | Seeds, Fertilizers & Agricultural Tools</title>
+    <meta name="description" content="Full-stack agricultural supply e-commerce store with seed, fertilizer, and tool catalog, live inventory management, checkout, and AI agronomy advisor." />
+    <meta property="og:title" content="AgriCare Farm Supplies" />
+    <meta property="og:description" content="Full-stack agricultural supply e-commerce store with seed, fertilizer, and tool catalog, live inventory management, checkout, and AI agronomy advisor." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('agricare_theme');
+          if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-[#F8FAF8] dark:bg-[#0c140d] text-[#1E2E20] dark:text-[#E2EAE3] antialiased selection:bg-emerald-200 selection:text-emerald-900 font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

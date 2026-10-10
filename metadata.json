@@ -1,0 +1,7 @@
+{
+  "name": "AgriCare Farm Supplies",
+  "description": "Full-stack agricultural supply e-commerce store with seed, fertilizer, and tool catalog, live inventory management, checkout, and AI agronomy advisor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

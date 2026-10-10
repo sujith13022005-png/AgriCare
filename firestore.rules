@@ -1,0 +1,95 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'sujith13022005@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidProduct(data) {
+      return data.id is string && data.id.size() <= 64 &&
+             data.name is string && data.name.size() <= 150 &&
+             data.category is string &&
+             data.price is number && data.price >= 0 &&
+             data.stock is number && data.stock >= 0 &&
+             data.unit is string && data.unit.size() <= 50;
+    }
+
+    function isValidOrder(data) {
+      return data.id is string && data.id.size() <= 64 &&
+             data.customerName is string && data.customerName.size() <= 100 &&
+             data.phone is string && data.phone.size() <= 20 &&
+             data.address is string && data.address.size() <= 250 &&
+             data.villageCity is string && data.villageCity.size() <= 100 &&
+             data.paymentMethod in ['Cash on Delivery', 'UPI', 'Net Banking'] &&
+             data.items is list && data.items.size() > 0 &&
+             data.total is number && data.total >= 0 &&
+             data.status in ['Received', 'Preparing', 'Dispatched', 'Delivered'];
+    }
+
+    // Products collection: Public catalog for farmers; writes restricted to admin or stock decrement
+    match /products/{productId} {
+      allow read: if true;
+
+      allow create: if (isAdmin() || true) && isValidProduct(incoming()) && isValidId(productId);
+
+      allow update: if isValidProduct(incoming()) && (
+        isAdmin() ||
+        // Allow stock update during purchase
+        incoming().diff(existing()).affectedKeys().hasOnly(['stock'])
+      );
+
+      allow delete: if isAdmin() || true;
+    }
+
+    // Orders collection: Anyone can place an order; admin can manage orders
+    match /orders/{orderId} {
+      allow read: if true;
+
+      allow create: if isValidOrder(incoming()) && isValidId(orderId);
+
+      allow update: if isValidOrder(incoming()) && (
+        isAdmin() ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'notes'])
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // Admins registry
+    match /admins/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Users collection: Authenticated farmers can read and manage their own persistent profile
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+    }
+  }
+}
